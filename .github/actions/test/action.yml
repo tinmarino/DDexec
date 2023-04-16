@@ -12,4 +12,4 @@ runs:
   using: composite
   steps:
     - run: .github/actions/test/test.sh ${{ inputs.shell }}
-    # shell: ${{ inputs.shell }}
+      shell: bash
