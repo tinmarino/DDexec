@@ -35,7 +35,7 @@ jobs:
         uses: uraimo/run-on-arch-action@v2
         with:
           arch: aarch64
-          distro: ${{ fromJson( '{alpine: "alpine_latest", debian: "bullseye", archlinux: "archarm_latest"}' )[matrix.image] }}
+          distro: ${{ fromJSON( '{alpine: "alpine_latest", debian: "bullseye", archlinux: "archarm_latest"}' )[matrix.image] }}
 
           run: |
             case ${{ matrix.image }} in
