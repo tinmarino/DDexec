@@ -23,7 +23,8 @@ jobs:
       matrix:
         shell: [bash, zsh]  # Currently no ash
         image: [alpine, debian, archlinux]
-
+    env:
+      json-map: '{"alpine": "alpine_latest", "debian": "bullseye", "archlinux": "archarm_latest"}'
 
     runs-on: ubuntu-latest
 
@@ -35,7 +36,7 @@ jobs:
         uses: uraimo/run-on-arch-action@v2
         with:
           arch: aarch64
-          distro: ${{ fromJSON( '{alpine: "alpine_latest", debian: "bullseye", archlinux: "archarm_latest"}' )[matrix.image] }}
+          distro: ${{ fromJSON( env.json-map )[matrix.image] }}
 
           run: |
             case ${{ matrix.image }} in
