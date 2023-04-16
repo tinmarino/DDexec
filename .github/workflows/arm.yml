@@ -38,7 +38,7 @@ jobs:
           distro: archarm_latest
           run: |
             case ${{ matrix.image }} in
-              alpine) apk update && apk add bash zsh
+              alpine) apk update && apk add bash zsh;;
               debian) apt-get update && apt-get install -y busybox zsh && ln -sf /bin/busybox /bin/ash;;
               arch) pacman -Sy --noconfirm busybox zsh which && ln -sf /bin/busybox /bin/ash;;
             esac
