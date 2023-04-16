@@ -2,6 +2,10 @@
 
 # Usage: `bash test.sh` (only supported shell for this script is bash)
 
+# TODO
+# Add timing report
+# Add function equal with color for report
+
 status=0
 
 sc="4831ff5766ffc748b86f20776f726c640a50b848656c6c48c1e02050488"\
@@ -9,7 +13,7 @@ sc="4831ff5766ffc748b86f20776f726c640a50b848656c6c48c1e02050488"\
 sc_bin=$(echo -n $sc | sed 's/\([0-9A-F]\{2\}\)/\\x\1/gI')
 
 # DDexec echo
-time r="$(base64 -w0 `which echo` |\
+r="$(base64 -w0 `which echo` |\
      "$1" ddexec.sh echo -n asd qwerty "" zxcvb " fdsa gf")"
 if [ "$r" = "$(echo -n asd qwerty "" zxcvb " fdsa gf")" ]
 then
@@ -20,7 +24,7 @@ else
 fi
 
 # DDsc shellcode
-time r=$(echo $sc | "$1" ddsc.sh -x)
+r=$(echo $sc | "$1" ddsc.sh -x)
 if [ "$r" = "Hello world" ]
 then
     echo "bash + ddsc, test 1: OK"
@@ -30,7 +34,7 @@ else
 fi
 
 # DDsc shellcode bin
-time r=$(printf "$sc_bin" | "$1" ./ddsc.sh)
+r=$(printf "$sc_bin" | "$1" ./ddsc.sh)
 if [ "$r" = "Hello world" ]
 then
     echo "bash + ddsc, test 2: OK"
