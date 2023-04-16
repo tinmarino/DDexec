@@ -16,44 +16,45 @@ on:
       - '*.md'
 
 jobs:
-  name: "ARM64: ${{ matrix.shell }}"
-  strategy:
-    fail-fast: false
-    matrix:
-      shell: [bash, zsh]  # Currently no ash
+  arm:
+    name: "ARM64: ${{ matrix.shell }}"
+    strategy:
+      fail-fast: false
+      matrix:
+        shell: [bash, zsh]  # Currently no ash
 
-  alpine_arm64:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: uraimo/run-on-arch-action@v2
-        with:
-          arch: aarch64
-          distro: alpine_latest
-          run: apk update && apk add bash zsh
-      - uses: ./.github/actions/test
-        shell: ${{ matrix.shell }}
+    alpine_arm64:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+        - uses: uraimo/run-on-arch-action@v2
+          with:
+            arch: aarch64
+            distro: alpine_latest
+            run: apk update && apk add bash zsh
+        - uses: ./.github/actions/test
+          shell: ${{ matrix.shell }}
 
-  debian_arm64:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: uraimo/run-on-arch-action@v2
-        with:
-          arch: aarch64
-          distro: bullseye
-          run: apt-get update && apt-get install -y busybox zsh && ln -sf /bin/busybox /bin/ash
-      - uses: ./.github/actions/test
-        shell: ${{ matrix.shell }}
+    debian_arm64:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+        - uses: uraimo/run-on-arch-action@v2
+          with:
+            arch: aarch64
+            distro: bullseye
+            run: apt-get update && apt-get install -y busybox zsh && ln -sf /bin/busybox /bin/ash
+        - uses: ./.github/actions/test
+          shell: ${{ matrix.shell }}
 
-  arch_arm64:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: uraimo/run-on-arch-action@v2
-        with:
-          arch: aarch64
-          distro: archarm_latest
-          run: pacman -Sy --noconfirm busybox zsh which && ln -sf /bin/busybox /bin/ash
-      - uses: ./.github/actions/test
-        shell: ${{ matrix.shell }}
+    arch_arm64:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+        - uses: uraimo/run-on-arch-action@v2
+          with:
+            arch: aarch64
+            distro: archarm_latest
+            run: pacman -Sy --noconfirm busybox zsh which && ln -sf /bin/busybox /bin/ash
+        - uses: ./.github/actions/test
+          shell: ${{ matrix.shell }}
