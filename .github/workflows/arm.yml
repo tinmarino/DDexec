@@ -55,14 +55,4 @@ jobs:
                 ;;
             esac
 
-      - name: Run
-        uses: ./.github/actions/test
-        with:
-          shell: ${{ matrix.shell }}
-
-            #    alpine_arm64:
-            #            distro: alpine_latest
-            #    debian_arm64:
-            #            distro: bullseye
-            #    arch_arm64:
-            #            distro: archarm_latest
+          run: ${{ matrix.shell }} ./.github/actions/test ${{ matrix.shell }}
