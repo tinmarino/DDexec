@@ -40,9 +40,19 @@ jobs:
           distro: ${{ fromJSON( env.json-map )[matrix.image] }}
           run: |
             case "${{ matrix.image }}" in
-              alpine) apk update && apk add bash zsh;;
-              debian) apt-get update && apt-get install -y busybox zsh && ln -sf /bin/busybox /bin/ash;;
-              archlinux) pacman -Sy --noconfirm busybox zsh which && ln -sf /bin/busybox /bin/ash;;
+              alpine)
+                apk update
+                apk add bash zsh
+                ;;
+              debian)
+                apt-get update
+                apt-get install -y busybox zsh
+                ln -sf /bin/busybox /bin/ash
+                ;;
+              archlinux)
+                pacman -Sy --noconfirm busybox zsh which
+                ln -sf /bin/busybox /bin/ash
+                ;;
             esac
 
       - name: Run
