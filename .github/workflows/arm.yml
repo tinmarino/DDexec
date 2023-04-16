@@ -17,7 +17,7 @@ on:
 
 jobs:
   arm:
-    name: "ARM64: ${{ matrix.shell }}"
+    name: "ARM64: ${{ matrix.shell }} on {{ matrix.image }}"
     strategy:
       fail-fast: false
       matrix:
