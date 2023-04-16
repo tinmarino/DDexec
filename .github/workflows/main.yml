@@ -1,6 +1,6 @@
 ---
 
-name: "CI x64"
+name: "CI X64"
 
 on:
   push:
