@@ -37,9 +37,17 @@ jobs:
       - name: Install
         run: |
           case "${{ matrix.image }}" in
-            alpine) apk update && apk add which bash ${{ matrix.shell }};;
-            debian) apt-get update && apt-get install -y ${{ matrix.shell }};;
-            archlinux) pacman -Sy --noconfirm which ${{ matrix.shell }};;
+            alpine)
+              apk update
+              apk add which bash ${{ matrix.shell }}
+              ;;
+            debian)
+              apt-get update
+              apt-get install -y ${{ matrix.shell }}
+              ;;
+            archlinux)
+              pacman -Sy --noconfirm which ${{ matrix.shell }}
+              ;;
           esac
 
       - name: Run

@@ -38,7 +38,7 @@ jobs:
         with:
           arch: aarch64
           distro: ${{ fromJSON( env.json-map )[matrix.image] }}
-          install: |
+          run: |
             case "${{ matrix.image }}" in
               alpine)
                 apk update
@@ -54,5 +54,4 @@ jobs:
                 ln -sf /bin/busybox /bin/ash
                 ;;
             esac
-
-          run: ${{ matrix.shell }} ./.github/actions/test/test.sh ${{ matrix.shell }}
+            ${{ matrix.shell }} ./.github/actions/test/test.sh ${{ matrix.shell }}
