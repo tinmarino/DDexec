@@ -1,4 +1,6 @@
-name: CI
+---
+
+name: "CI x64"
 
 on:
   push:
@@ -8,7 +10,7 @@ on:
   pull_request:
     paths-ignore:
       - '*.md'
-      
+
   workflow_dispatch:
     paths-ignore:
       - '*.md'
@@ -21,7 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: apk update && apk add bash zsh
-      - uses: ./.github/actions/test ash
+      - uses: ./.github/actions/test
+        shell: ash
 
   debian_x64:
     container:
@@ -33,6 +36,7 @@ jobs:
       - run: apt-get update && apt-get install -y zsh
       # - run: ln -sf /bin/busybox /bin/ash
       - uses: ./.github/actions/test
+        shell: zsh
 
   arch_x64:
     container:
@@ -44,3 +48,4 @@ jobs:
       - run: pacman -Sy --noconfirm zsh which
       # - run: ln -sf /bin/busybox /bin/ash
       - uses: ./.github/actions/test
+        shell: zsh
