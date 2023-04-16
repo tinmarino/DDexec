@@ -11,5 +11,5 @@ inputs:
 runs:
   using: composite
   steps:
-    - run: .github/actions/test/test.sh
-      shell: ${{ inputs.shell }}
+    - run: .github/actions/test/test.sh ${{ inputs.shell }}
+    # shell: ${{ inputs.shell }}

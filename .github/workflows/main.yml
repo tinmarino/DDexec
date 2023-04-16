@@ -22,11 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shell: [
-          "bash",
-          "zsh",
-          "ash",
-        ]
+        shell: [bash, zsh]  # Currently no ash
         image: [alpine, debian, archlinux]
 
     container:
@@ -42,7 +38,7 @@ jobs:
         run: |
           case ${{ matrix.image }} in
             alpine) apk update && apk add bash ${{ matrix.shell }};;
-            debian) apt-get update && apt-get install -y ${{ matrix.shell }};;
+            debian) apt-get update && apt-get install -y time ${{ matrix.shell }};;
             arch_x64) pacman -Sy --noconfirm ${{ matrix.shell }} which;;
           esac
 
