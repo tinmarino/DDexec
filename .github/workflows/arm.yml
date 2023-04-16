@@ -55,4 +55,4 @@ jobs:
                 ;;
             esac
 
-          run: ${{ matrix.shell }} ./.github/actions/test ${{ matrix.shell }}
+          run: ${{ matrix.shell }} ./.github/actions/test/test.sh ${{ matrix.shell }}
