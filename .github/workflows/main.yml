@@ -18,7 +18,7 @@ on:
 
 jobs:
   main:
-    name: "Run: ${{ matrix.shell }} on ${{ matrix.image }}"
+    name: "X86: ${{ matrix.shell }} on ${{ matrix.image }}"
     strategy:
       fail-fast: false
       matrix:
