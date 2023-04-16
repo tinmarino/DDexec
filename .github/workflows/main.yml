@@ -39,7 +39,7 @@ jobs:
           case ${{ matrix.image }} in
             alpine) apk update && apk add which bash ${{ matrix.shell }};;
             debian) apt-get update && apt-get install -y ${{ matrix.shell }};;
-            arch_x64) pacman -Sy --noconfirm which ${{ matrix.shell }};;
+            archlinux) pacman -Sy --noconfirm which ${{ matrix.shell }};;
           esac
 
       - name: Run
