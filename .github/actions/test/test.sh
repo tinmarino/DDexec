@@ -6,42 +6,42 @@
 # Add timing report
 # Add function equal with color for report
 
-status=0
+exit_status=0
 
-sc="4831ff5766ffc748b86f20776f726c640a50b848656c6c48c1e02050488"\
+shellcode_base64="4831ff5766ffc748b86f20776f726c640a50b848656c6c48c1e02050488"\
 "9e64883c6044889f84889c2b20c0f054831c04889c7b03c0f05"
-sc_bin=$(echo -n $sc | sed 's/\([0-9A-F]\{2\}\)/\\x\1/gI')
+shellcode_binary=$(printf "%s" "$shellcode_base64" | sed 's/\([0-9A-F]\{2\}\)/\\x\1/gI')
 
 # DDexec echo
-r="$(base64 -w0 `which echo` |\
-     "$1" ddexec.sh echo -n asd qwerty "" zxcvb " fdsa gf")"
-if [ "$r" = "$(echo -n asd qwerty "" zxcvb " fdsa gf")" ]
+ret=$(base64 -w0 "$(which echo)" |\
+     "$1" ddexec.sh echo -n asd qwerty "" zxcvb " fdsa gf")
+if [ "$ret" = "$(echo -n asd qwerty "" zxcvb " fdsa gf")" ]
 then
     echo "bash + ddexec, test 1: OK"
 else
     echo "bash + ddexec, test 1: Error :("
-    status=1
+    exit_status=1
 fi
 
 # DDsc shellcode
-r=$(echo $sc | "$1" ddsc.sh -x)
-if [ "$r" = "Hello world" ]
+ret=$(echo $shellcode_base64 | "$1" ddsc.sh -x)
+if [ "$ret" = "Hello world" ]
 then
     echo "bash + ddsc, test 1: OK"
 else
     echo "bash + ddsc, test 1: Error :("
-    status=1
+    exit_status=1
 fi
 
 # DDsc shellcode bin
-r=$(printf "$sc_bin" | "$1" ./ddsc.sh)
-if [ "$r" = "Hello world" ]
+ret=$(printf "$shellcode_binary" | "$1" ./ddsc.sh)
+if [ "$ret" = "Hello world" ]
 then
     echo "bash + ddsc, test 2: OK"
 else
-    echo "bash + ddsc, test 2: Error :(, got $r!"
-    status=1
+    echo "bash + ddsc, test 2: Error :(, got $ret!"
+    exit_status=1
 fi
 echo
 
-exit $status
+exit $exit_status
