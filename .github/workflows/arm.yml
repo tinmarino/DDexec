@@ -17,7 +17,7 @@ on:
 
 jobs:
   arm:
-    name: "ARM64: ${{ matrix.shell }} on {{ matrix.image }}"
+    name: "ARM64: ${{ matrix.shell }} on ${{ matrix.image }}"
     strategy:
       fail-fast: false
       matrix:
@@ -31,7 +31,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install for arch
+      - name: "Install for ${{ matrix.image }}"
         uses: uraimo/run-on-arch-action@v2
         with:
           arch: aarch64
@@ -42,6 +42,11 @@ jobs:
               debian) apt-get update && apt-get install -y busybox zsh && ln -sf /bin/busybox /bin/ash;;
               arch) pacman -Sy --noconfirm busybox zsh which && ln -sf /bin/busybox /bin/ash;;
             esac
+
+      - name: Run
+        uses: ./.github/actions/test
+        with:
+          shell: ${{ matrix.shell }}
 
             #    alpine_arm64:
             #            distro: alpine_latest
