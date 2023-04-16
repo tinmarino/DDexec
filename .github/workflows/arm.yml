@@ -23,6 +23,7 @@ jobs:
       matrix:
         shell: [bash, zsh]  # Currently no ash
         image: [alpine, debian, archlinux]
+
     env:
       json-map: '{"alpine": "alpine_latest", "debian": "bullseye", "archlinux": "archarm_latest"}'
 
@@ -37,9 +38,8 @@ jobs:
         with:
           arch: aarch64
           distro: ${{ fromJSON( env.json-map )[matrix.image] }}
-
           run: |
-            case ${{ matrix.image }} in
+            case "${{ matrix.image }}" in
               alpine) apk update && apk add bash zsh;;
               debian) apt-get update && apt-get install -y busybox zsh && ln -sf /bin/busybox /bin/ash;;
               archlinux) pacman -Sy --noconfirm busybox zsh which && ln -sf /bin/busybox /bin/ash;;
