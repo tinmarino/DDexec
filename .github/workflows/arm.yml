@@ -38,7 +38,7 @@ jobs:
         with:
           arch: aarch64
           distro: ${{ fromJSON( env.json-map )[matrix.image] }}
-          run: |
+          install: |
             case "${{ matrix.image }}" in
               alpine)
                 apk update
