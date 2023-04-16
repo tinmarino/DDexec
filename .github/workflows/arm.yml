@@ -1,5 +1,7 @@
+---
 name: "CI ARM"
 
+# yamllint disable-line rule:truthy
 on:
   push:
     paths-ignore:
@@ -8,12 +10,18 @@ on:
   pull_request:
     paths-ignore:
       - '*.md'
-      
+
   workflow_dispatch:
     paths-ignore:
       - '*.md'
 
 jobs:
+  name: "ARM64: ${{ matrix.shell }}"
+  strategy:
+    fail-fast: false
+    matrix:
+      shell: [bash, zsh]  # Currently no ash
+
   alpine_arm64:
     runs-on: ubuntu-latest
     steps:
@@ -24,6 +32,7 @@ jobs:
           distro: alpine_latest
           run: apk update && apk add bash zsh
       - uses: ./.github/actions/test
+        shell: ${{ matrix.shell }}
 
   debian_arm64:
     runs-on: ubuntu-latest
@@ -35,6 +44,7 @@ jobs:
           distro: bullseye
           run: apt-get update && apt-get install -y busybox zsh && ln -sf /bin/busybox /bin/ash
       - uses: ./.github/actions/test
+        shell: ${{ matrix.shell }}
 
   arch_arm64:
     runs-on: ubuntu-latest
@@ -46,3 +56,4 @@ jobs:
           distro: archarm_latest
           run: pacman -Sy --noconfirm busybox zsh which && ln -sf /bin/busybox /bin/ash
       - uses: ./.github/actions/test
+        shell: ${{ matrix.shell }}
