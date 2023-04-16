@@ -22,39 +22,30 @@ jobs:
       fail-fast: false
       matrix:
         shell: [bash, zsh]  # Currently no ash
+        image: [alpine, debian, arch]
 
-    alpine_arm64:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
-        - uses: uraimo/run-on-arch-action@v2
-          with:
-            arch: aarch64
-            distro: alpine_latest
-            run: apk update && apk add bash zsh
-        - uses: ./.github/actions/test
-          shell: ${{ matrix.shell }}
 
-    debian_arm64:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
-        - uses: uraimo/run-on-arch-action@v2
-          with:
-            arch: aarch64
-            distro: bullseye
-            run: apt-get update && apt-get install -y busybox zsh && ln -sf /bin/busybox /bin/ash
-        - uses: ./.github/actions/test
-          shell: ${{ matrix.shell }}
+    runs-on: ubuntu-latest
 
-    arch_arm64:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
-        - uses: uraimo/run-on-arch-action@v2
-          with:
-            arch: aarch64
-            distro: archarm_latest
-            run: pacman -Sy --noconfirm busybox zsh which && ln -sf /bin/busybox /bin/ash
-        - uses: ./.github/actions/test
-          shell: ${{ matrix.shell }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install for arch
+        uses: uraimo/run-on-arch-action@v2
+        with:
+          arch: aarch64
+          distro: archarm_latest
+          run: |
+            case ${{ matrix.image }} in
+              alpine) apk update && apk add bash zsh
+              debian) apt-get update && apt-get install -y busybox zsh && ln -sf /bin/busybox /bin/ash;;
+              arch) pacman -Sy --noconfirm busybox zsh which && ln -sf /bin/busybox /bin/ash;;
+            esac
+
+            #    alpine_arm64:
+            #            distro: alpine_latest
+            #    debian_arm64:
+            #            distro: bullseye
+            #    arch_arm64:
+            #            distro: archarm_latest
